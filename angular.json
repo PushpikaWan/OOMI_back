@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "OOMI-MP"
+    }
+  },
+  "defaultProject": "OOMI-MP",
+  "cli": {
+    "analytics": false
+  }
 }
