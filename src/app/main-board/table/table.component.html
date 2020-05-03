@@ -8,6 +8,6 @@
 |----------------------------|
 -->
 
-
-<!-- player 01 -->
-<app-person-card-set [cardSet]="[]" [orientation]=""></app-person-card-set>
+<div *ngFor="let player of players">
+  <app-person-card-set [player]="player" [orientation]=""></app-person-card-set>
+</div>

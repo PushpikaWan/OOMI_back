@@ -3,6 +3,14 @@ export enum CardOrientation {
   Vertical
 }
 
+export enum PlayerID {
+  Player_BOT,
+  Player_01,
+  Player_02,
+  Player_03,
+  Player_04
+}
+
 export enum Card {
   SPADE_A, SPADE_2, SPADE_3, SPADE_4, SPADE_5, SPADE_6, SPADE_7,
   SPADE_8, SPADE_9, SPADE_10, SPADE_J, SPADE_Q, SPADE_K,
