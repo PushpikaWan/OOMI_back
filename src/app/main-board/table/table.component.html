@@ -1,13 +1,20 @@
-<!--
-|----------------------------|
-|           01               |
-|                            |
-|    02              04      |
-|                            |
-|           03               |
-|----------------------------|
--->
+<div class="table-container">'
+  <div class="upper-board">
+<!--    <img src="assets/images/other/back_cards-07.png" />-->
+  </div>
+  <div class="middle-board">
+    <div class="left-person-area">
+       <img class="left-player-card-set-image" src="assets/images/other/back_cards-07.png" />
+    </div>
+    <div class="card-area">
 
-<div *ngFor="let player of players">
-  <app-person-card-set [player]="player" [orientation]=""></app-person-card-set>
+    </div>
+    <div class="right-person-area">
+       <img  class="right-player-card-set-image" src="assets/images/other/back_cards-07.png" />
+    </div>
+  </div>
+  <div class="lower-board">
+  <app-person-card-set [player]="selectedPlayer"></app-person-card-set>
+  </div>
 </div>
+<!--/back_cards-07-->

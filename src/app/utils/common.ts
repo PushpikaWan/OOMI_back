@@ -1,4 +1,4 @@
-import { Card } from '../main-board/models/enums';
+import { OOMICard } from '../main-board/models/enums';
 
 
 export function shuffle(array) {
@@ -22,7 +22,7 @@ export function shuffle(array) {
   return array;
 }
 
-export function getShortNameOfCard(card: Card) {
-  const splitted = card.toString().split('_');
-  return splitted[0][0] + '_' + splitted[1][0];
+export function getShortNameOfCard(card: OOMICard) {
+  const split = card.toString().split('_');
+  return split[0][0] + '_' + split[1];
 }

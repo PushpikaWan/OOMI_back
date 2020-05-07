@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
-import { Card, CardOrientation } from '../models/enums';
+import { OOMICard } from '../models/enums';
 import { Player } from '../models/models';
 import { getShortNameOfCard } from '../../utils/common';
 
@@ -15,10 +15,8 @@ import { getShortNameOfCard } from '../../utils/common';
 export class PersonCardSetComponent implements OnInit, AfterViewInit {
 
   @Input()
-  orientation: CardOrientation;
-  @Input()
   player: Player;
-  cardMap: Map<number, Card> = new Map<number, Card>();
+  cardMap: Map<number, OOMICard> = new Map<number, OOMICard>();
 
   constructor(private changeDetectorRef: ChangeDetectorRef) { }
 
@@ -31,7 +29,7 @@ export class PersonCardSetComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getCardName(card: Card) {
+  getCardName(card: OOMICard) {
     return getShortNameOfCard(card);
   }
 

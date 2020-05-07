@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../models/models';
-import { Card, PlayerID } from '../models/enums';
-import { shuffle } from '../../utils/common';
+import { PlayerID } from '../models/enums';
+import { ServerLogicService } from '../../core-server/server-logic.service';
 
 
 @Component({
@@ -10,24 +10,16 @@ import { shuffle } from '../../utils/common';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
-  players: Player[] = [];
+  // todo player Id should come from server
+  private PLAYER_ID = PlayerID.Player_01;
 
-  constructor() {
-    this.shuffleCards();
+  selectedPlayer: Player;
+
+  constructor(private serverLogicService: ServerLogicService) {
   }
 
   ngOnInit(): void {
-  }
-
-  private shuffleCards() {
-    // get all cards from enum
-    const keys = Object.keys(Card).filter(k => typeof Card[k as any] === 'number'); // ["A", "B"]
-    // const values = keys.map(k => Card[k as any]); // [0, 1]
-    const shuffledArray = shuffle(keys);
-    this.players.push({ playerId: PlayerID.Player_01, cardSet: shuffledArray.slice(0, 13) });
-    this.players.push({ playerId: PlayerID.Player_02, cardSet: shuffledArray.slice(13, 26) });
-    this.players.push({ playerId: PlayerID.Player_03, cardSet: shuffledArray.slice(26, 39) });
-    this.players.push({ playerId: PlayerID.Player_04, cardSet: shuffledArray.slice(39, 52) });
+    this.selectedPlayer = this.serverLogicService.getPlayer(this.PLAYER_ID);
   }
 
 }

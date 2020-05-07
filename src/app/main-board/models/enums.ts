@@ -1,14 +1,16 @@
-export enum CardOrientation {
-  Horizontal,
-  Vertical
-}
-
 export enum PlayerID {
   Player_BOT,
   Player_01,
   Player_02,
   Player_03,
   Player_04
+}
+
+export enum OOMICard {
+  SPADE_A, SPADE_7, SPADE_8, SPADE_9, SPADE_10, SPADE_J, SPADE_Q, SPADE_K,
+  DIAMOND_A, DIAMOND_7, DIAMOND_8, DIAMOND_9, DIAMOND_10, DIAMOND_J, DIAMOND_Q, DIAMOND_K,
+  CLUB_A, CLUB_7, CLUB_8, CLUB_9, CLUB_10, CLUB_J, CLUB_Q, CLUB_K,
+  HEART_A, HEART_7, HEART_8, HEART_9, HEART_10, HEART_J, HEART_Q, HEART_K
 }
 
 export enum Card {
