@@ -8,13 +8,15 @@ import { TableComponent } from './main-board/table/table.component';
 import { MaterialSharedModule } from './shared-modules/material-shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServerLogicService } from './core-server/server-logic.service';
+import { OtherPlayerCardSetComponent } from './main-board/other-player-card-set/other-player-card-set.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     PersonCardSetComponent,
-    TableComponent
+    TableComponent,
+    OtherPlayerCardSetComponent
   ],
   imports: [
     BrowserModule,
@@ -27,4 +29,6 @@ import { ServerLogicService } from './core-server/server-logic.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class CardMainAppModule {
+
+}

@@ -1,20 +1,45 @@
+<!--
+|----------------------------|
+|           03               |
+|                            |
+|    04              02      |
+|                            |
+|           01               |
+|----------------------------|
+-->
 <div class="table-container">'
   <div class="upper-board">
-<!--    <img src="assets/images/other/back_cards-07.png" />-->
+     <div class="upper-person-area">
+        <app-other-player-card-set [player]="getPlayer(playerIDTypes.Player_03)"></app-other-player-card-set>
+     </div>
   </div>
   <div class="middle-board">
     <div class="left-person-area">
-       <img class="left-player-card-set-image" src="assets/images/other/back_cards-07.png" />
+      <app-other-player-card-set [player]="getPlayer(playerIDTypes.Player_04)"></app-other-player-card-set>
     </div>
     <div class="card-area">
-
+      <div class="card-upper-layer">
+        <img class="vertical-card-image" src="assets/images/other/green_back.png"/>
+      </div>
+      <div class="card-middle-layer">
+        <div class="middle-inside-layer">
+            <img class="horizontal-card-image" src="assets/images/other/blue_back.png"/>
+        </div>
+        <div class="middle-inside-layer">
+        </div>
+        <div class="middle-inside-layer">
+          <img class="horizontal-card-image" src="assets/images/other/purple_back.png"/>
+        </div>
+      </div>
+      <div class="card-lower-layer">
+        <img class="vertical-card-image" src="assets/images/other/red_back.png"/>
+      </div>
     </div>
     <div class="right-person-area">
-       <img  class="right-player-card-set-image" src="assets/images/other/back_cards-07.png" />
+       <app-other-player-card-set [player]="getPlayer(playerIDTypes.Player_02)"></app-other-player-card-set>
     </div>
   </div>
   <div class="lower-board">
   <app-person-card-set [player]="selectedPlayer"></app-person-card-set>
   </div>
 </div>
-<!--/back_cards-07-->

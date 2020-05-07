@@ -10,6 +10,7 @@ import { ServerLogicService } from '../../core-server/server-logic.service';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
+  playerIDTypes = PlayerID;
   // todo player Id should come from server
   private PLAYER_ID = PlayerID.Player_01;
 
@@ -19,7 +20,11 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedPlayer = this.serverLogicService.getPlayer(this.PLAYER_ID);
+    this.selectedPlayer = this.getPlayer(this.PLAYER_ID);
+  }
+
+  getPlayer(playerID: PlayerID): Player {
+    return this.serverLogicService.getPlayer(playerID);
   }
 
 }
