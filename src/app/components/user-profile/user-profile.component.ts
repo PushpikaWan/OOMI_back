@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { select, Store } from '@ngrx/store';
+import { AppState } from '../../store/states/app.state';
+import { loginAction, logOutAction } from '../../store/actions/user.action';
+import { getIsUserLoggedIn, getUserData } from '../../store/selectors/user.selector';
+import { Observable } from 'rxjs';
+import { User } from '../../models/models';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -8,9 +14,21 @@ import { AuthService } from '../../services/auth.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(public auth: AuthService) { }
+  isLoggedIn$: Observable<boolean>;
+  user$: Observable<User>;
 
-  ngOnInit(): void {
+  constructor(private store: Store<AppState>) { }
+
+  googleSignIn() {
+    this.store.dispatch(loginAction());
   }
 
+  ngOnInit(): void {
+    this.isLoggedIn$ = this.store.pipe(select(getIsUserLoggedIn));
+    this.user$ = this.store.pipe(select(getUserData));
+  }
+
+  signOut() {
+    this.store.dispatch(logOutAction());
+  }
 }

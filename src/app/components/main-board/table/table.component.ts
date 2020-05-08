@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { PlayerID } from '../../../models/enums';
+import { PlayerID, TablePosition } from '../../../models/enums';
 import { ServerLogicService } from '../../../services/server-logic.service';
-import { AppState } from '../../../store/states/app-state';
-import { loadSimpleDataAction } from '../../../store/actions/simple-action';
+import { AppState } from '../../../store/states/app.state';
 import { Player } from '../../../models/models';
 
 
@@ -15,13 +14,14 @@ import { Player } from '../../../models/models';
 })
 export class TableComponent implements OnInit {
   playerIDTypes = PlayerID;
+  TablePosition = TablePosition;
+
   // todo player Id should come from server
   private PLAYER_ID = PlayerID.Player_01;
 
   selectedPlayer: Player;
 
   constructor(private store: Store<AppState>, private serverLogicService: ServerLogicService) {
-    this.store.dispatch(loadSimpleDataAction());
   }
 
   ngOnInit(): void {

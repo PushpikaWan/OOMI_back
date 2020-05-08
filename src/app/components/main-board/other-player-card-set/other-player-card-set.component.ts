@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PlayerID } from '../../../models/enums';
+import { TablePosition } from '../../../models/enums';
 import { Player } from '../../../models/models';
 
 
@@ -9,10 +9,13 @@ import { Player } from '../../../models/models';
   styleUrls: ['./other-player-card-set.component.scss']
 })
 export class OtherPlayerCardSetComponent implements OnInit {
-  playerIDTypes = PlayerID;
+  TablePosition = TablePosition;
 
   @Input()
   player: Player;
+
+  @Input()
+  tablePosition: TablePosition;
 
   constructor() { }
 

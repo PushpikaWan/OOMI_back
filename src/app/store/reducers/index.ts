@@ -1,10 +1,10 @@
 import { ActionReducerMap } from '@ngrx/store';
-import { AppState } from '../states/app-state';
-import { simpleReducer } from './simple-reducer';
+import { AppState } from '../states/app.state';
+import { userReducer } from './user.reducer';
 import { routerReducer } from '@ngrx/router-store';
 
 
 export const combinedReducers: ActionReducerMap<AppState, any> = {
-  simpleState: simpleReducer,
+  userState: userReducer,
   routerState: routerReducer
 };

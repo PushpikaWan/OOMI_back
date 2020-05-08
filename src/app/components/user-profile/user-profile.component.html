@@ -1,4 +1,4 @@
-<div *ngIf="auth.user$ | async; then authenticated else guest">
+<div *ngIf="isLoggedIn$ | async; then authenticated else guest">
         <!-- template will replace this div -->
 </div>
 
@@ -7,7 +7,7 @@
     <h3>Howdy, GUEST</h3>
     <p>Login to get started...</p>
 
-    <button (click)="auth.googleSignIn()">
+    <button (click)="googleSignIn()">
         <i class="fa fa-google"></i> Connect Google
     </button>
 
@@ -16,10 +16,10 @@
 
 <!-- User logged in -->
 <ng-template #authenticated>
-    <div *ngIf="auth.user$ | async as user">
+    <div *ngIf="user$ | async as user">
         <h3>Howdy, {{ user.displayName }}</h3>
         <img [src]="user.photoUrl" alt='profile image'>
         <p>UID: {{ user.uid }}</p>
-        <button (click)="auth.signOut()">Logout</button>
+        <button (click)="signOut()">Logout</button>
     </div>
 </ng-template>

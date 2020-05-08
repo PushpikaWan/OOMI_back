@@ -14,15 +14,16 @@ import { User } from '../models/models';
   providedIn: 'root'
 })
 export class AuthService {
-  user$: Observable<User>;
 
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router
-  ) {
+  ) {}
+
+  getAlreadySignedUser(): Observable<User> {
     // Get the auth state, then fetch the Firestore user document or return null
-    this.user$ = this.afAuth.authState.pipe(
+    return this.afAuth.authState.pipe(
       switchMap(user => {
         // Logged in
         if (user) {
@@ -35,17 +36,15 @@ export class AuthService {
     );
   }
 
-
-  async googleSignIn() {
+  async googleSignIn(): Promise<User> {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
-    return this.updateUserData(credential.user);
+    return credential.user;
   }
 
-  private updateUserData(user) {
+  updateUserData(user): Promise<void> {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-
     const data = {
       uid: user.uid,
       email: user.email,
@@ -59,6 +58,6 @@ export class AuthService {
 
   async signOut() {
     await this.afAuth.signOut();
-    await this.router.navigate(['/']);
+    return this.router.navigate(['/']);
   }
 }

@@ -6,6 +6,13 @@ export enum PlayerID {
   Player_04
 }
 
+export enum TablePosition {
+  DOWN,
+  RIGHT,
+  UP,
+  LEFT
+}
+
 export enum OOMICard {
   SPADE_A, SPADE_7, SPADE_8, SPADE_9, SPADE_10, SPADE_J, SPADE_Q, SPADE_K,
   DIAMOND_A, DIAMOND_7, DIAMOND_8, DIAMOND_9, DIAMOND_10, DIAMOND_J, DIAMOND_Q, DIAMOND_K,

@@ -7,12 +7,13 @@ import { RouterModule } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { combinedReducers } from '../store/reducers';
 import { CustomRouteSerializer } from '../store/states/custom-route-serializer';
+import { combinedEffects } from '../store/effects';
 
 
 export const NGRX_MODULES = [
   StoreModule.forRoot(combinedReducers),
   StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-  EffectsModule.forRoot([]),
+  EffectsModule.forRoot(combinedEffects),
   StoreRouterConnectingModule.forRoot(),
   RouterModule.forRoot([
     // routes

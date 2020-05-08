@@ -3,6 +3,9 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { AuthService } from './services/auth.service';
 import { map, take, tap } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { AppState } from './store/states/app.state';
+import { getIsUserLoggedIn } from './store/selectors/user.selector';
 
 
 @Injectable({
@@ -12,7 +15,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.auth.user$.pipe(
+    return this.store.pipe(select(getIsUserLoggedIn)).pipe(
       take(1),
       map(user => !!user), // <-- map to boolean
       tap(loggedIn => {
@@ -24,6 +27,6 @@ export class AuthGuard implements CanActivate {
     );
   }
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private store: Store<AppState>) {}
 
 }
