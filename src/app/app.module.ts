@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PersonCardSetComponent } from './components/main-board/person-card-set/person-card-set.component';
 import { TableComponent } from './components/main-board/table/table.component';
@@ -13,6 +12,7 @@ import { FIRE_MODULES } from './shared-modules/fire.module';
 import { NGRX_MODULES } from './shared-modules/ngrx.module';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -27,10 +27,10 @@ import { HomePageComponent } from './components/home-page/home-page.component';
   imports: [
     BrowserModule,
     MaterialSharedModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     NGRX_MODULES,
-    FIRE_MODULES
+    FIRE_MODULES,
+    AppRoutingModule,
   ],
   providers: [
     ServerLogicService
