@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
-import { OOMICard } from '../models/enums';
-import { Player } from '../models/models';
-import { getShortNameOfCard } from '../../utils/common';
+import { OOMICard } from '../../../models/enums';
+import { getShortNameOfCard } from '../../../utils/common';
+import { Player } from '../../../models/models';
 
 
 @Component({

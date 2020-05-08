@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Player } from '../models/models';
-import { PlayerID } from '../models/enums';
+import { PlayerID } from '../../../models/enums';
+import { Player } from '../../../models/models';
 
 
 @Component({

@@ -1,4 +1,4 @@
-import { OOMICard } from '../main-board/models/enums';
+import { OOMICard } from '../models/enums';
 
 
 export function shuffle(array) {

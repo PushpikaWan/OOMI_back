@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { Player } from '../models/models';
-import { PlayerID } from '../models/enums';
-import { ServerLogicService } from '../../core-server/server-logic.service';
-import { AppState } from '../../store/states/app-state';
-import { loadSimpleDataAction } from '../../store/actions/simple-action';
+import { PlayerID } from '../../../models/enums';
+import { ServerLogicService } from '../../../services/server-logic.service';
+import { AppState } from '../../../store/states/app-state';
+import { loadSimpleDataAction } from '../../../store/actions/simple-action';
+import { Player } from '../../../models/models';
 
 
 @Component({

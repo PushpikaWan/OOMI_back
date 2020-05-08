@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { OOMICard, PlayerID } from '../main-board/models/enums';
+import { OOMICard, PlayerID } from '../models/enums';
 import { shuffle } from '../utils/common';
-import { Player } from '../main-board/models/models';
+import { Player } from '../models/models';
 
 
 @Injectable({
