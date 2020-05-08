@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +10,11 @@ import { MaterialSharedModule } from './shared-modules/material-shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServerLogicService } from './core-server/server-logic.service';
 import { OtherPlayerCardSetComponent } from './main-board/other-player-card-set/other-player-card-set.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { combinedReducers } from './store/reducers';
 
 
 @NgModule({
@@ -22,13 +28,17 @@ import { OtherPlayerCardSetComponent } from './main-board/other-player-card-set/
     BrowserModule,
     MaterialSharedModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    StoreModule.forRoot(combinedReducers),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot()
   ],
   providers: [
     ServerLogicService
   ],
   bootstrap: [AppComponent]
 })
-export class CardMainAppModule {
+export class AppModule {
 
 }

@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { Player } from '../models/models';
 import { PlayerID } from '../models/enums';
 import { ServerLogicService } from '../../core-server/server-logic.service';
+import { AppState } from '../../store/states/app-state';
+import { loadSimpleDataAction } from '../../store/actions/simple-action';
 
 
 @Component({
@@ -16,7 +20,8 @@ export class TableComponent implements OnInit {
 
   selectedPlayer: Player;
 
-  constructor(private serverLogicService: ServerLogicService) {
+  constructor(private store: Store<AppState>, private serverLogicService: ServerLogicService) {
+    this.store.dispatch(loadSimpleDataAction());
   }
 
   ngOnInit(): void {
