@@ -1,6 +1,7 @@
-import { getAppCurrentState } from '../states/app.state';
 import { User } from '../../models/models';
 
+// export const featureModule = 'userFeature';
+// export const getAppCurrentState = createFeatureSelector<AppState, UserState>(featureModule);
 
-export const getIsUserLoggedIn = (state: any): boolean => getAppCurrentState(state).userState.isUserLoggedIn;
-export const getUserData = (state: any): User => getAppCurrentState(state).userState.userData;
+export const getIsUserLoggedIn = (state: any): boolean => state.userState.isUserLoggedIn;
+export const getUserData = (state: any): User => state.userState.userData;

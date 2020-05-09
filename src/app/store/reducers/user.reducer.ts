@@ -4,29 +4,18 @@ import {
   loginAction,
   loginFailureAction,
   loginSuccessAction, logOutAction, logOutFailureAction, logOutSuccessAction,
-  updateUserDataAction, updateUserDataFailureAction,
-  updateUserDataSuccessAction
 } from '../actions/user.action';
 
 
 const useReducer = createReducer(initialUserState,
   on(loginAction, () => initialUserState),
-  on(loginSuccessAction, (state) => ({ ...state })),
-  on(loginFailureAction, (state, action) => ({
-    ...state,
-    userData: { uid: null, email: null },
-    isUserLoggedIn: false,
-    error: action.error
-  })),
-  // data update flow
-  on(updateUserDataAction, (state) => ({ ...state })),
-  on(updateUserDataSuccessAction, (state, action) => ({
+  on(loginSuccessAction, (state, action) => ({
     ...state,
     userData: action.userData,
     isUserLoggedIn: true,
     error: null
   })),
-  on(updateUserDataFailureAction, (state, action) => ({
+  on(loginFailureAction, (state, action) => ({
     ...state,
     userData: { uid: null, email: null },
     isUserLoggedIn: false,

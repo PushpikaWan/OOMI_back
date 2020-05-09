@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import {
   loginFailureAction,
   loginSuccessAction, logOutFailureAction, logOutSuccessAction,
-  updateUserDataAction, updateUserDataFailureAction,
-  updateUserDataSuccessAction,
   UserActionTypes
 } from '../actions/user.action';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, switchMap, take } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../states/app.state';
@@ -21,16 +19,8 @@ export class UserEffect {
       ofType(UserActionTypes.LOG_IN),
       mergeMap(
         () => this.authService.googleSignIn()
-          .then(userData => (loginSuccessAction({ userData }) && updateUserDataAction({ userData })))
+          .then(userData => (loginSuccessAction({ userData })))
           .catch((error) => (loginFailureAction({ error: error?.toString() }))))));
-  // ---------------------------------------------------------------------------------------------------------------------------------------
-  //
-  updateData$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActionTypes.UPDATE_USER_DATA),
-      switchMap((({ userData }) => this.authService.updateUserData(userData)
-        .then(() => (updateUserDataSuccessAction({ userData })))
-        .catch((error) => (updateUserDataFailureAction({ error: error?.toString() })))))));
   // ---------------------------------------------------------------------------------------------------------------------------------------
   //
   logout$ = createEffect(() =>
@@ -50,7 +40,7 @@ export class UserEffect {
       take(1)
     ).subscribe(userData => {
       if (userData !== null) {
-        this.store.dispatch(updateUserDataSuccessAction({ userData }));
+        this.store.dispatch(loginSuccessAction({ userData }));
       }
     });
   }

@@ -5,7 +5,7 @@ import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { User } from '../models/models';
 
@@ -39,28 +39,26 @@ export class AuthService {
   async googleSignIn(): Promise<User> {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
-    return credential.user;
+    const userData = {
+      uid: credential.user.uid,
+      email: credential.user.email,
+      displayName: credential.user.displayName,
+      photoURL: credential.user.photoURL
+    };
+    await this.updateUserData(userData).catch((error) => throwError(error));
+    return of(userData).toPromise();
   }
 
-  async updateUserData(user): Promise<void> {
+  private updateUserData(userData) {
     // Sets user data to firestore on login
-    console.log('data', user);
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-    const data = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL
-    };
-    console.log('user ref', userRef);
-
-    return userRef.set(data, { merge: true });
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${userData.uid}`);
+    return userRef.set(userData, { merge: true });
   }
 
   async signOut() {
     await this.afAuth.signOut().catch(
       // todo log error - removed state changes for failures
     );
-    // await this.router.navigate(['/']);
+    await this.router.navigate(['/']);
   }
 }
