@@ -1,0 +1,16 @@
+<h1 mat-dialog-title> Create Table</h1>
+<mat-spinner
+  *ngIf="isLoading"
+  color="accent"
+  class="custom-spinner">
+</mat-spinner>
+<div *ngIf="!isLoading" mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Table name</mat-label>
+    <input matInput [(ngModel)]="tableName">
+  </mat-form-field>
+</div>
+<div *ngIf="!isLoading" mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="createTable()" cdkFocusInitial>Create</button>
+</div>

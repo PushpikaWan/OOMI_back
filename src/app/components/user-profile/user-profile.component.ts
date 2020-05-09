@@ -5,6 +5,8 @@ import { loginAction, logOutAction } from '../../store/actions/user.action';
 import { getIsUserLoggedIn, getUserData } from '../../store/selectors/user.selector';
 import { Observable } from 'rxjs';
 import { User } from '../../models/models';
+import { MatDialog } from '@angular/material/dialog';
+import { TableCreateDialogComponent } from '../waiting-room/table-create-dalog/table-create-dialog.component';
 
 
 @Component({
@@ -17,7 +19,7 @@ export class UserProfileComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   user$: Observable<User>;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private readonly store: Store<AppState>, private readonly dialog: MatDialog) { }
 
   googleSignIn() {
     this.store.dispatch(loginAction());
@@ -30,5 +32,14 @@ export class UserProfileComponent implements OnInit {
 
   signOut() {
     this.store.dispatch(logOutAction());
+  }
+
+  createGame() {
+    const dialogRef = this.dialog.open(TableCreateDialogComponent, { width: '250px' });
+    dialogRef.afterClosed().subscribe();
+  }
+
+  joinGame() {
+
   }
 }

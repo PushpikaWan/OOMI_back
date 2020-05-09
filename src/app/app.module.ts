@@ -13,6 +13,10 @@ import { NGRX_MODULES } from './shared-modules/ngrx.module';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { AppRoutingModule } from './app-routing.module';
+import { TableCreateDialogComponent } from './components/waiting-room/table-create-dalog/table-create-dialog.component';
+import { TableJoinDialogComponent } from './components/waiting-room/table-join-dalog/table-join-dialog.component';
+import { TableFormComponent } from './components/waiting-room/table-form/table-form.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,12 +26,16 @@ import { AppRoutingModule } from './app-routing.module';
     TableComponent,
     OtherPlayerCardSetComponent,
     UserProfileComponent,
-    HomePageComponent
+    HomePageComponent,
+    TableCreateDialogComponent,
+    TableJoinDialogComponent,
+    TableFormComponent
   ],
   imports: [
     BrowserModule,
     MaterialSharedModule,
     BrowserAnimationsModule,
+    FormsModule,
     NGRX_MODULES,
     FIRE_MODULES,
     AppRoutingModule,

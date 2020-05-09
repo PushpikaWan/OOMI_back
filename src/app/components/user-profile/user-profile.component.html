@@ -21,5 +21,9 @@
         <img [src]="user.photoUrl" alt='profile image'>
         <p>UID: {{ user.uid }}</p>
         <button (click)="signOut()">Logout</button>
+        <br/>
+        <button (click)="createGame()"> Create New Game</button>
+        <br/>
+        <button (click)="joinGame()"> Join to Game</button>
     </div>
 </ng-template>
