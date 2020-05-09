@@ -7,7 +7,7 @@ import {
 } from '../actions/user.action';
 
 
-const useReducer = createReducer(initialUserState,
+const userInternalReducer = createReducer(initialUserState,
   on(loginAction, () => initialUserState),
   on(loginSuccessAction, (state, action) => ({
     ...state,
@@ -32,5 +32,5 @@ const useReducer = createReducer(initialUserState,
 
 
 export function userReducer(state: UserState, action: Action): UserState {
-  return useReducer(state, action);
+  return userInternalReducer(state, action);
 }

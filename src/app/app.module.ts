@@ -16,7 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TableCreateDialogComponent } from './components/waiting-room/table-create-dalog/table-create-dialog.component';
 import { TableJoinDialogComponent } from './components/waiting-room/table-join-dalog/table-join-dialog.component';
 import { TableFormComponent } from './components/waiting-room/table-form/table-form.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -36,6 +36,7 @@ import { FormsModule } from '@angular/forms';
     MaterialSharedModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     NGRX_MODULES,
     FIRE_MODULES,
     AppRoutingModule,

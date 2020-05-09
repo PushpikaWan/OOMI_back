@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/states/app.state';
 import { createTableAction } from '../../../store/actions/table.action';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -11,12 +12,16 @@ import { createTableAction } from '../../../store/actions/table.action';
   styleUrls: ['./table-create-dialog.component.scss']
 })
 export class TableCreateDialogComponent implements OnInit {
-  tableName: string;
   isLoading = false;
+  errorMessage = '';
+  dialogFormControl: FormControl;
 
   constructor(
     private readonly store: Store<AppState>,
-    private dialogRef: MatDialogRef<TableCreateDialogComponent>) {}
+    private dialogRef: MatDialogRef<TableCreateDialogComponent>) {
+    this.dialogFormControl = new FormControl('');
+    this.setListeners();
+  }
 
   onCancel(): void {
     this.dialogRef.close();
@@ -26,7 +31,15 @@ export class TableCreateDialogComponent implements OnInit {
   }
 
   createTable() {
-    this.store.dispatch(createTableAction({ tableData: { tableName: this.tableName } }));
+    const currentDate = new Date();
+    this.store.dispatch(createTableAction(
+      { tableData: { tableName: this.dialogFormControl.value, lastUpdateDateTime: currentDate, startedDatTime: currentDate } }));
     this.isLoading = true;
+  }
+
+  private setListeners() {
+    //
+    this.errorMessage = `Please choose another name. ${this.dialogFormControl.value} name is already exists`;
+    this.dialogFormControl.setErrors({ error: true });
   }
 }

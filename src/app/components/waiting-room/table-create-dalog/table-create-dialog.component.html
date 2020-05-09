@@ -7,10 +7,11 @@
 <div *ngIf="!isLoading" mat-dialog-content>
   <mat-form-field>
     <mat-label>Table name</mat-label>
-    <input matInput [(ngModel)]="tableName">
+    <input matInput [formControl]="dialogFormControl">
   </mat-form-field>
+  <div class="mat-error" *ngIf="dialogFormControl.invalid">{{errorMessage}}</div>
 </div>
 <div *ngIf="!isLoading" mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button (click)="createTable()" cdkFocusInitial>Create</button>
+  <button mat-raised-button color="accent" (click)="createTable()" cdkFocusInitial>Create</button>
 </div>
