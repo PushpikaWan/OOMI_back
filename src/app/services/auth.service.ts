@@ -42,8 +42,9 @@ export class AuthService {
     return credential.user;
   }
 
-  updateUserData(user): Promise<void> {
+  async updateUserData(user): Promise<void> {
     // Sets user data to firestore on login
+    console.log('data', user);
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
     const data = {
       uid: user.uid,
@@ -51,13 +52,15 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL
     };
+    console.log('user ref', userRef);
 
     return userRef.set(data, { merge: true });
-
   }
 
   async signOut() {
-    await this.afAuth.signOut();
-    return this.router.navigate(['/']);
+    await this.afAuth.signOut().catch(
+      // todo log error - removed state changes for failures
+    );
+    // await this.router.navigate(['/']);
   }
 }

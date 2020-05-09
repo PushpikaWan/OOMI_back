@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { updateUserDataSuccessAction, UserActionTypes } from '../actions/user.action';
+import {
+  loginFailureAction,
+  loginSuccessAction, logOutFailureAction, logOutSuccessAction,
+  updateUserDataAction, updateUserDataFailureAction,
+  updateUserDataSuccessAction,
+  UserActionTypes
+} from '../actions/user.action';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
@@ -15,17 +21,16 @@ export class UserEffect {
       ofType(UserActionTypes.LOG_IN),
       mergeMap(
         () => this.authService.googleSignIn()
-          .then(userData => ({ type: UserActionTypes.LOG_IN_SUCCESS, payload: { userData } } &&
-            { type: UserActionTypes.UPDATE_USER_DATA, payload: { userData } }))
-          .catch((error) => ({ type: UserActionTypes.LOG_IN_FAILURE, payload: { error: error?.toString() } })))));
+          .then(userData => (loginSuccessAction({ userData }) && updateUserDataAction({ userData })))
+          .catch((error) => (loginFailureAction({ error: error?.toString() }))))));
   // ---------------------------------------------------------------------------------------------------------------------------------------
   //
   updateData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActionTypes.UPDATE_USER_DATA),
       switchMap((({ userData }) => this.authService.updateUserData(userData)
-        .then(() => ({ type: UserActionTypes.UPDATE_USER_DATA_SUCCESS, payload: { userData } }))
-        .catch((error) => ({ type: UserActionTypes.UPDATE_USER_DATA_FAILURE, payload: { error: error?.toString() } }))))));
+        .then(() => (updateUserDataSuccessAction({ userData })))
+        .catch((error) => (updateUserDataFailureAction({ error: error?.toString() })))))));
   // ---------------------------------------------------------------------------------------------------------------------------------------
   //
   logout$ = createEffect(() =>
@@ -33,8 +38,8 @@ export class UserEffect {
       ofType(UserActionTypes.LOG_OUT),
       mergeMap(
         () => this.authService.signOut()
-          .then(() => ({ type: UserActionTypes.LOG_OUT_SUCCESS }))
-          .catch((error) => ({ type: UserActionTypes.LOG_OUT_FAILURE, payload: { error: error?.toString() } })))));
+          .then(() => (logOutSuccessAction()))
+          .catch((error) => (logOutFailureAction({ error: error?.toString() }))))));
 
   constructor(
     private actions$: Actions,
