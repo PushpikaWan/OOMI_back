@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap } from 'rxjs/operators';
-import { TableActionTypes } from '../actions/table.action';
+import { createTableFailureAction, createTableSuccessAction, TableActionTypes } from '../actions/table.action';
 import { TableService } from '../../services/table.service';
 
 
@@ -12,7 +12,9 @@ export class TableEffect {
     this.actions$.pipe(
       ofType(TableActionTypes.CREATE_TABLE),
       switchMap(
-        (action) => this.tableService.createTable(action))));
+        ({ tableData }) => this.tableService.createTable(tableData).toPromise()
+          .then((value) => createTableSuccessAction({ tableData: value }))
+          .catch((error) => createTableFailureAction({ error })))));
   // ---------------------------------------------------------------------------------------------------------------------------------------
 
   //
