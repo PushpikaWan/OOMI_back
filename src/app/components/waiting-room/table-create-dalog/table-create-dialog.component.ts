@@ -41,6 +41,8 @@ export class TableCreateDialogComponent implements OnInit {
       {
         tableData: {
           tableName: this.dialogFormGroup.controls.dialogFormControl.value,
+          pendingPlayers: [],
+          finalizedPlayers: [],
           lastUpdateDateTime: currentDate,
           startedDatTime: currentDate
         }
@@ -62,7 +64,7 @@ export class TableCreateDialogComponent implements OnInit {
     this.store.pipe(select(getTableData)).pipe(
       filter(tableData => tableData !== null && tableData.tableName !== undefined)
     ).subscribe(
-      () => this.isLoading = false
+      () => this.dialogRef.close()
     );
   }
 }

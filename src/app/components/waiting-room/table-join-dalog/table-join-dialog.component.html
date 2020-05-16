@@ -1,1 +1,17 @@
-<p>table-join-dalog works!</p>
+<h1 mat-dialog-title> Join to Table</h1>
+<mat-spinner
+  *ngIf="isLoading"
+  color="accent"
+  class="custom-spinner">
+</mat-spinner>
+<div *ngIf="!isLoading" mat-dialog-content [formGroup]="dialogFormGroup">
+  <mat-form-field>
+    <mat-label>Table name</mat-label>
+    <input matInput formControlName="tableNameFieldControl">
+  </mat-form-field>
+  <div class="mat-error" *ngIf="dialogFormGroup.valid">{{errorMessage}}</div>
+</div>
+<div *ngIf="!isLoading" mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="accent" (click)="joinTable()" cdkFocusInitial>Join</button>
+</div>

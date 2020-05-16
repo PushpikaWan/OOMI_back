@@ -1,1 +1,27 @@
-<p>table-form works!</p>
+<div class="table-form-container">
+  <h1> table name</h1>
+
+  <div>
+    <mat-selection-list #players>
+      <mat-list-option *ngFor="let player of pendingPlayers">
+        {{player}}
+      </mat-list-option>
+    </mat-selection-list>
+
+    <p *ngIf="3 - players.selectedOptions.selected.length > 0">
+      play with : {{3 - players.selectedOptions.selected.length}} bot
+    </p>
+    <div class="mat-error"
+         *ngIf="players.selectedOptions.selected.length > 3"> Please select 3 or less than 3 players</div>
+  </div>
+
+  <div>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button
+      [disabled]="players.selectedOptions.selected.length > 3"
+      mat-raised-button
+      color="accent"
+      (click)="createGame()" cdkFocusInitial>Start Game
+    </button>
+  </div>
+</div>

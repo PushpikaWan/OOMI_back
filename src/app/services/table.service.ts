@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 
-import { Table } from '../models/models';
+import { Table, User } from '../models/models';
+import { AuthService } from './auth.service';
 
 // todo add user logged state before all call -> this.afAuth.authState
 
@@ -13,10 +15,19 @@ import { Table } from '../models/models';
 })
 export class TableService {
 
+  private user: User;
+
   constructor(
-    private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
-  ) {}
+    private authService: AuthService
+  ) {
+
+    this.authService.getAlreadySignedUser().pipe(take(1)).subscribe(userData => {
+      if (userData !== null) {
+        this.user = userData;
+      }
+    });
+  }
 
   createTable(tableData: Table): Observable<any> {
     const tableDataRef = this.afs.collection('tables').doc(tableData.tableName);
@@ -32,6 +43,33 @@ export class TableService {
         }
       })
     );
+  }
+
+  joinTable(tableName: string): Observable<any> {
+    const tableDataRef = this.afs.collection('tables').doc(tableName);
+    return tableDataRef.get().pipe(
+      take(1),
+      map(docSnapshot => {
+        if (!docSnapshot.exists) {
+          throw new Error(`Please try again. This ${tableName} is not exists`);
+        } else {
+          tableDataRef.update({
+            pendingPlayers: firebase.firestore.FieldValue.arrayUnion(this.user)
+          }).catch(error => Promise.reject(error));
+        }
+      })
+    );
+  }
+
+  isConfirmed(tableName: string): Observable<boolean> {
+    console.log('table name', tableName);
+    const tableFinalizedListField = `{${tableName}}`;
+    const tableDataRef = this.afs.collection('tables').doc(tableFinalizedListField);
+    return tableDataRef.snapshotChanges()
+      .pipe(
+        map(actions => console.log('in changes', actions)),
+        map(() => false)
+      );
   }
 
 }

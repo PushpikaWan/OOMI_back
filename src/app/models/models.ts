@@ -11,15 +11,33 @@ export interface User {
 
 export interface Player {
   playerId: PlayerID;
+  // todo add encrypt and decrypt algorithm before and after sending
   cardSet: OOMICard[];
+}
+
+export interface Game {
+  roundNumber: number;
+  blackKetaCount: number;
+  redKetaCount: number;
+  blackCount: number;
+  redCount: number;
+  currentPlayer: Player;
+  currentPlayerStartTIme: Date;
+  player1: Player;
+  player2: Player;
+  player3: Player;
+  player4: Player;
 }
 
 export interface Table {
   tableName: string;
-  player_1?: Player;
-  player_2?: Player;
-  player_3?: Player;
-  player_4?: Player;
+  game?: Game;
+  player1ID?: User;
+  player2ID?: User;
+  player3ID?: User;
+  player4ID?: User;
+  pendingPlayers: User[];
+  finalizedPlayers: User[];
   startedDatTime: Date;
   lastUpdateDateTime: Date;
 }

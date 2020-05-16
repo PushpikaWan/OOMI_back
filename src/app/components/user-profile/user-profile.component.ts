@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/models';
 import { MatDialog } from '@angular/material/dialog';
 import { TableCreateDialogComponent } from '../waiting-room/table-create-dalog/table-create-dialog.component';
+import { TableJoinDialogComponent } from '../waiting-room/table-join-dalog/table-join-dialog.component';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   joinGame() {
-
+    const dialogRef = this.dialog.open(TableJoinDialogComponent, { width: '250px' });
+    dialogRef.afterClosed().subscribe();
   }
 }
