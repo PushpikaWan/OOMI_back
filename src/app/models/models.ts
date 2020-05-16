@@ -1,4 +1,4 @@
-import { ErrorCode, OOMICard, PlayerID } from './enums';
+import { OOMICard, PlayerID } from './enums';
 
 
 export interface User {
@@ -22,9 +22,4 @@ export interface Table {
   player_4?: Player;
   startedDatTime: Date;
   lastUpdateDateTime: Date;
-}
-
-export interface GameError {
-  error: string;
-  errorCode: ErrorCode;
 }

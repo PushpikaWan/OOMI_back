@@ -1,12 +1,14 @@
-import { GameError, Table } from '../../models/models';
+import { Table } from '../../models/models';
 
 
 export interface TableState {
   tableData: Table;
-  error: GameError;
+  isError: boolean;
+  error: string;
 }
 
 export const initialTableState: TableState = {
   tableData: null,
+  isError: false,
   error: null
 };

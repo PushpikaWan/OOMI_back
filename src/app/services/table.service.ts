@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
-import { Observable, of, throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { Table } from '../models/models';
 
+// todo add user logged state before all call -> this.afAuth.authState
 
 @Injectable({
   providedIn: 'root'
@@ -19,17 +19,16 @@ export class TableService {
   ) {}
 
   createTable(tableData: Table): Observable<any> {
-    return this.afAuth.authState.pipe(
-      switchMap(user => {
-        // Logged in
-        if (user) {
-          const tableDataRef = this.afs.collection('tables').doc(tableData.tableName);
-          return tableDataRef.set(tableData, { merge: true })
-            .then(() => of(tableData))
-            .catch(error => throwError(error));
+    const tableDataRef = this.afs.collection('tables').doc(tableData.tableName);
+    return tableDataRef.get().pipe(
+      take(1),
+      map(docSnapshot => {
+        if (docSnapshot.exists) {
+          throw new Error(`Please choose another name. ${tableData.tableName} is already exists`);
         } else {
-          // Logged out
-          return of(null);
+          return tableDataRef.set(tableData, { merge: true })
+            .then(() => tableData)
+            .catch(error => Promise.reject(error));
         }
       })
     );

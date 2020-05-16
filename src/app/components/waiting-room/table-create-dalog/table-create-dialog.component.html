@@ -4,12 +4,12 @@
   color="accent"
   class="custom-spinner">
 </mat-spinner>
-<div *ngIf="!isLoading" mat-dialog-content>
+<div *ngIf="!isLoading" mat-dialog-content [formGroup]="dialogFormGroup">
   <mat-form-field>
     <mat-label>Table name</mat-label>
-    <input matInput [formControl]="dialogFormControl">
+    <input matInput formControlName="dialogFormControl">
   </mat-form-field>
-  <div class="mat-error" *ngIf="dialogFormControl.invalid">{{errorMessage}}</div>
+  <div class="mat-error" *ngIf="dialogFormGroup.valid">{{errorMessage}}</div>
 </div>
 <div *ngIf="!isLoading" mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancel</button>

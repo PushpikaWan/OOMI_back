@@ -26,3 +26,8 @@ export function getShortNameOfCard(card: OOMICard) {
   const split = card.toString().split('_');
   return split[0][0] + '_' + split[1];
 }
+
+export function getErrorTextFromError(error: Error) {
+  // remove 'Error' text from error as well
+  return error.toString().substr(7, error.toString().length);
+}

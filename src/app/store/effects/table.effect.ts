@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap } from 'rxjs/operators';
 import { createTableFailureAction, createTableSuccessAction, TableActionTypes } from '../actions/table.action';
 import { TableService } from '../../services/table.service';
+import { getErrorTextFromError } from '../../utils/common';
 
 
 @Injectable()
@@ -14,7 +15,7 @@ export class TableEffect {
       switchMap(
         ({ tableData }) => this.tableService.createTable(tableData).toPromise()
           .then((value) => createTableSuccessAction({ tableData: value }))
-          .catch((error) => createTableFailureAction({ error })))));
+          .catch((error) => createTableFailureAction({ error: getErrorTextFromError(error) })))));
   // ---------------------------------------------------------------------------------------------------------------------------------------
 
   //

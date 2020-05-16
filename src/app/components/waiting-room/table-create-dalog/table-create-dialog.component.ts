@@ -1,25 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+
 import { AppState } from '../../../store/states/app.state';
 import { createTableAction } from '../../../store/actions/table.action';
-import { FormControl } from '@angular/forms';
+import { getTableData, getTableError } from '../../../store/selectors/table.selector';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'app-table-create-dalog',
+  selector: 'app-table-create-dialog',
   templateUrl: './table-create-dialog.component.html',
   styleUrls: ['./table-create-dialog.component.scss']
 })
 export class TableCreateDialogComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
-  dialogFormControl: FormControl;
+  dialogFormGroup: FormGroup;
 
   constructor(
     private readonly store: Store<AppState>,
     private dialogRef: MatDialogRef<TableCreateDialogComponent>) {
-    this.dialogFormControl = new FormControl('');
+    this.dialogFormGroup = new FormGroup({
+      dialogFormControl: new FormControl('')
+    });
     this.setListeners();
   }
 
@@ -33,13 +38,31 @@ export class TableCreateDialogComponent implements OnInit {
   createTable() {
     const currentDate = new Date();
     this.store.dispatch(createTableAction(
-      { tableData: { tableName: this.dialogFormControl.value, lastUpdateDateTime: currentDate, startedDatTime: currentDate } }));
+      {
+        tableData: {
+          tableName: this.dialogFormGroup.controls.dialogFormControl.value,
+          lastUpdateDateTime: currentDate,
+          startedDatTime: currentDate
+        }
+      }));
     this.isLoading = true;
   }
 
   private setListeners() {
     //
-    this.errorMessage = `Please choose another name. ${this.dialogFormControl.value} name is already exists`;
-    this.dialogFormControl.setErrors({ error: true });
+    this.store.pipe(select(getTableError)).subscribe(
+      error => {
+        if (error) {
+          this.isLoading = false;
+          this.dialogFormGroup.controls.dialogFormControl.setErrors({ error: true });
+          this.errorMessage = error;
+        }
+      }
+    );
+    this.store.pipe(select(getTableData)).pipe(
+      filter(tableData => tableData !== null && tableData.tableName !== undefined)
+    ).subscribe(
+      () => this.isLoading = false
+    );
   }
 }
