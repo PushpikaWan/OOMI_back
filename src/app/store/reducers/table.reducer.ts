@@ -8,7 +8,11 @@ import {
   joinTableFailureAction,
   joinTableConfirmedAction,
   joinTableSuccessAction,
-  joinTableRejectedAction
+  joinTableRejectedAction,
+  listeningForPendingPlayerAction,
+  listeningForPendingPlayerSuccessAction,
+  listeningForPendingPlayerFailureAction,
+  changePendingPlayerListAction
 } from '../actions/table.action';
 
 
@@ -54,7 +58,35 @@ const tableInternalReducer = createReducer(initialTableState,
     isWaitingForJoinConfirmation: false,
     isError: true,
     error: action.error
-  }))
+  })),
+  // listening for pending player list changes
+  on(listeningForPendingPlayerAction, (state) => ({
+    ...state,
+    isWaitingForPendingPlayersList: true,
+    isError: false,
+    error: null
+  })),
+  on(changePendingPlayerListAction, (state, action) => ({
+    ...state,
+    tableData: action.tableData,
+    isWaitingForPendingPlayersList: true,
+    isError: false,
+    error: null
+  })),
+  on(listeningForPendingPlayerSuccessAction, (state, action) => ({
+    ...state,
+    tableData: action.tableData,
+    isWaitingForPendingPlayersList: false,
+    isError: false,
+    error: null
+  })),
+  on(listeningForPendingPlayerFailureAction, (state, action) => ({
+    ...state,
+    tableData: null,
+    isWaitingForPendingPlayersList: false,
+    isError: true,
+    error: action.error
+  })),
 );
 
 

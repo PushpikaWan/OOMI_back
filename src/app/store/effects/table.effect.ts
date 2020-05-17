@@ -43,7 +43,17 @@ export class TableEffect {
     this.actions$.pipe(
       ofType(TableActionTypes.JOIN_TABLE_WAITING_FOR_CONFIRMATION),
       switchMap(
-        ({ tableName }) => this.tableService.isConfirmed(tableName).pipe(
+        ({ tableName }) => this.tableService.checkConfirmation(tableName).pipe(
+          map(tableData => tableData !== null ?
+            this.router.navigate(['/card-table']) && joinTableConfirmedAction({ tableData }) : joinTableRejectedAction(
+              { error: 'rejected...' }))
+        ))));
+
+  changePendingPlayerList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TableActionTypes.LISTENING_FOR_PENDING_PLAYERS),
+      switchMap(
+        ({ tableName }) => this.tableService.listeningForPendingPlayers(tableName).pipe(
           map(tableData => tableData !== null ?
             this.router.navigate(['/card-table']) && joinTableConfirmedAction({ tableData }) : joinTableRejectedAction(
               { error: 'rejected...' }))

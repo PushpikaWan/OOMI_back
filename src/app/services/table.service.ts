@@ -62,13 +62,22 @@ export class TableService {
   }
 
   // todo handle network and unexpected errors here
-  isConfirmed(tableName: string): Observable<Table> {
-    console.log('table name', tableName);
+  checkConfirmation(tableName: string): Observable<Table> {
     const tableDataRef = this.afs.collection('tables').doc<Table>(tableName);
     return tableDataRef.snapshotChanges()
       .pipe(
         map(actions => actions.payload.data() as Table),
         filter(tableData => tableData.finalizedPlayers.length > 0),
+        map(tableData => tableData.finalizedPlayers.includes(this.user) ? tableData : null)
+      );
+  }
+
+  listeningForPendingPlayers(tableName: string): Observable<Table> {
+    console.log('table name', tableName);
+    const tableDataRef = this.afs.collection('tables').doc<Table>(tableName);
+    return tableDataRef.snapshotChanges()
+      .pipe(
+        map(actions => actions.payload.data() as Table),
         map(tableData => tableData.finalizedPlayers.includes(this.user) ? tableData : null)
       );
   }
