@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { MatDialogRef } from '@angular/material/dialog';
+import { select, Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
+
 import { AppState } from '../../../store/states/app.state';
 import { TableCreateDialogComponent } from '../table-create-dalog/table-create-dialog.component';
 import { joinTableAction } from '../../../store/actions/table.action';
+import { getTableData, getTableError } from '../../../store/selectors/table.selector';
 
 
 @Component({
@@ -39,20 +42,19 @@ export class TableJoinDialogComponent implements OnInit {
   }
 
   private setListeners() {
-    // //
-    // this.store.pipe(select(getTableError)).subscribe(
-    //   error => {
-    //     if (error) {
-    //       this.isLoading = false;
-    //       this.dialogFormGroup.controls.tableNameFieldControl.setErrors({ error: true });
-    //       this.errorMessage = error;
-    //     }
-    //   }
-    // );
-    // this.store.pipe(select(getTableData)).pipe(
-    //   filter(tableData => tableData !== null && tableData.tableName !== undefined)
-    // ).subscribe(
-    //   () => this.dialogRef.close()
-    // );
+    this.store.pipe(select(getTableError)).subscribe(
+      error => {
+        if (error) {
+          this.isLoading = false;
+          this.dialogFormGroup.controls.tableNameFieldControl.setErrors({ error: true });
+          this.errorMessage = error;
+        }
+      }
+    );
+    this.store.pipe(select(getTableData)).pipe(
+      filter(tableData => tableData !== null && tableData.tableName !== undefined)
+    ).subscribe(
+      () => this.dialogRef.close()
+    );
   }
 }

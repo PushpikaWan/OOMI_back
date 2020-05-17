@@ -35,7 +35,7 @@ export class TableEffect {
       switchMap(
         ({ tableName }) => this.tableService.joinTable(tableName).toPromise()
           // success call separately after user confirmed - do nothing if success
-          .then(() => joinTableSuccessAction() && joinTableWaitingForConfirmationAction(tableName))
+          .then(() => joinTableSuccessAction() && joinTableWaitingForConfirmationAction({ tableName }))
           .catch((error) => joinTableFailureAction({ error: getErrorTextFromError(error) })))));
 
 
@@ -43,10 +43,10 @@ export class TableEffect {
     this.actions$.pipe(
       ofType(TableActionTypes.JOIN_TABLE_WAITING_FOR_CONFIRMATION),
       switchMap(
-        // todo remove hard coded value...
-        ({ tableName }) => this.tableService.isConfirmed('1').pipe(
-          map(isConfirmed => isConfirmed ? joinTableConfirmedAction({ tableData: null }) : joinTableRejectedAction(
-            { error: 'rejected...' }))
+        ({ tableName }) => this.tableService.isConfirmed(tableName).pipe(
+          map(tableData => tableData !== null ?
+            this.router.navigate(['/card-table']) && joinTableConfirmedAction({ tableData }) : joinTableRejectedAction(
+              { error: 'rejected...' }))
         ))));
 
   constructor(

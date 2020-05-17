@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
@@ -51,7 +51,7 @@ export class TableService {
       take(1),
       map(docSnapshot => {
         if (!docSnapshot.exists) {
-          throw new Error(`Please try again. This ${tableName} is not exists`);
+          throw new Error(`Please try again. This ${tableName} table is not exists`);
         } else {
           tableDataRef.update({
             pendingPlayers: firebase.firestore.FieldValue.arrayUnion(this.user)
@@ -61,14 +61,15 @@ export class TableService {
     );
   }
 
-  isConfirmed(tableName: string): Observable<boolean> {
+  // todo handle network and unexpected errors here
+  isConfirmed(tableName: string): Observable<Table> {
     console.log('table name', tableName);
-    const tableFinalizedListField = `{${tableName}}`;
-    const tableDataRef = this.afs.collection('tables').doc(tableFinalizedListField);
+    const tableDataRef = this.afs.collection('tables').doc<Table>(tableName);
     return tableDataRef.snapshotChanges()
       .pipe(
-        map(actions => console.log('in changes', actions)),
-        map(() => false)
+        map(actions => actions.payload.data() as Table),
+        filter(tableData => tableData.finalizedPlayers.length > 0),
+        map(tableData => tableData.finalizedPlayers.includes(this.user) ? tableData : null)
       );
   }
 
